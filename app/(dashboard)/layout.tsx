@@ -1,7 +1,7 @@
-import Navbar from "@/components/navbar";
-import { Sidebar } from "@/components/sidebar";
-import { checkSubscription } from "@/lib/subscription";
-import { getApiLimitCount } from "@/lib/api-limit";
+import Navbar from "@/features/dashboard/components/navbar";
+import { Sidebar } from "@/features/dashboard/components/sidebar";
+import { checkSubscription } from "@/features/shared/lib/subscription";
+import { getApiLimitCount } from "@/features/shared/lib/api-limit";
 
 const DashboardLayout = async ({
   children,
