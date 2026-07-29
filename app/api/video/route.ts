@@ -1,5 +1,5 @@
 import Replicate from "replicate";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 import { incrementApiLimit, checkApiLimit } from "@/lib/api-limit";
@@ -11,7 +11,7 @@ const replicate = new Replicate({
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
     const body = await req.json();
     const { prompt } = body;
 

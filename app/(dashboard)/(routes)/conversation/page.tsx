@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
+type ChatCompletionRequestMessage = { role: "user" | "assistant" | "system"; content: string };
 
 import { BotAvatar } from "@/components/bot-avatar";
 import { Heading } from "@/components/heading";
