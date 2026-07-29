@@ -4,16 +4,14 @@ import { useEffect, useState } from "react";
 import { Menu } from "lucide-react";
 
 import { Button } from "@/features/shared/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/features/shared/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/features/shared/components/ui/sheet";
 import { Sidebar } from "@/features/dashboard/components/sidebar";
 
-export const MobileSidebar = ({
-  apiLimitCount = 0,
-  isPro = false
-}: {
-  apiLimitCount: number;
-  isPro: boolean;
-}) => {
+export const MobileSidebar = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -32,7 +30,7 @@ export const MobileSidebar = ({
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">
-        <Sidebar isPro={isPro} apiLimitCount={apiLimitCount} />
+        <Sidebar />
       </SheetContent>
     </Sheet>
   );

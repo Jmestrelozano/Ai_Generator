@@ -10,19 +10,23 @@ export const incrementApiLimit = async () => {
     return;
   }
 
-  const userApiLimit = await prismadb.userApiLimit.findUnique({
-    where: { userId: userId },
-  });
-
-  if (userApiLimit) {
-    await prismadb.userApiLimit.update({
+  try {
+    const userApiLimit = await prismadb.userApiLimit.findUnique({
       where: { userId: userId },
-      data: { count: userApiLimit.count + 1 },
     });
-  } else {
-    await prismadb.userApiLimit.create({
-      data: { userId: userId, count: 1 },
-    });
+
+    if (userApiLimit) {
+      await prismadb.userApiLimit.update({
+        where: { userId: userId },
+        data: { count: userApiLimit.count + 1 },
+      });
+    } else {
+      await prismadb.userApiLimit.create({
+        data: { userId: userId, count: 1 },
+      });
+    }
+  } catch (error) {
+    console.error("[INCREMENT_API_LIMIT]", error);
   }
 };
 
@@ -33,13 +37,18 @@ export const checkApiLimit = async () => {
     return false;
   }
 
-  const userApiLimit = await prismadb.userApiLimit.findUnique({
-    where: { userId: userId },
-  });
+  try {
+    const userApiLimit = await prismadb.userApiLimit.findUnique({
+      where: { userId: userId },
+    });
 
-  if (!userApiLimit || userApiLimit.count < MAX_FREE_COUNTS) {
-    return true;
-  } else {
+    if (!userApiLimit || userApiLimit.count < MAX_FREE_COUNTS) {
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.error("[CHECK_API_LIMIT]", error);
     return false;
   }
 };
@@ -51,15 +60,20 @@ export const getApiLimitCount = async () => {
     return 0;
   }
 
-  const userApiLimit = await prismadb.userApiLimit.findUnique({
-    where: {
-      userId,
-    },
-  });
+  try {
+    const userApiLimit = await prismadb.userApiLimit.findUnique({
+      where: {
+        userId,
+      },
+    });
 
-  if (!userApiLimit) {
+    if (!userApiLimit) {
+      return 0;
+    }
+
+    return userApiLimit.count;
+  } catch (error) {
+    console.error("[GET_API_LIMIT_COUNT]", error);
     return 0;
   }
-
-  return userApiLimit.count;
 };
